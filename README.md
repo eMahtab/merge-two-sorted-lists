@@ -23,42 +23,46 @@ Output: 1->1->2->3->4->4
 class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         if(l1 == null || l2 == null)
-            return l1 == null ? l2: l1;
+            return (l1 == null) ? l2 : l1;
+        ListNode p1 = l1;
+        ListNode p2 = l2;
+        
         ListNode head = null;
-        ListNode prev = null;
-        while(l1 != null && l2 != null){
-            ListNode node = null;
-            if(l1.val < l2.val){
-                node = new ListNode(l1.val);
-                l1 = l1.next;
-            }else{
-                node = new ListNode(l2.val);
-                l2 = l2.next;
-            }
+        ListNode node = null;
+        ListNode current = null;
+        
+        while(p1 != null && p2 != null) {
+            if(p1.val <= p2.val) {
+                node = new ListNode(p1.val);
+                p1 = p1.next;
+            } else {
+                node = new ListNode(p2.val);
+                p2 = p2.next;
+            }    
             
-            if(head == null){
+            if(head == null) {
                 head = node;
+                current = node;
+            } else {
+                current.next = node;
+                current = node;
             }
-            if(prev != null){
-                prev.next = node;
-            }
-            prev = node;
-                            
-        }
-        while(l1 != null){
-            ListNode x = new ListNode(l1.val);
-            prev.next = x;
-            prev = x;
-            l1 = l1.next;
-        }
-        while(l2 != null){
-            ListNode y = new ListNode(l2.val);
-            prev.next = y;
-            prev = y;
-            l2 = l2.next;
         }
         
+        while(p1 != null) {
+            node = new ListNode(p1.val);
+            current.next = node;
+            current = node;
+            p1 = p1.next;
+        }
+        while(p2 != null) {
+            node = new ListNode(p2.val);
+            current.next = node;
+            current = node;
+            p2 = p2.next;
+        }
         return head;
+        
     }
 }
 ```
