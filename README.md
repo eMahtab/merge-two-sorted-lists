@@ -17,20 +17,20 @@ Output: 1->1->2->3->4->4
  * public class ListNode {
  *     int val;
  *     ListNode next;
- *     ListNode(int x) { val = x; }
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
 class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         if(l1 == null || l2 == null)
-            return (l1 == null) ? l2 : l1;
-        ListNode p1 = l1;
-        ListNode p2 = l2;
+            return l1 == null ? l2 : l1;
         
+        ListNode p1 = l1, p2 = l2;
         ListNode head = null;
+        ListNode prev = null;
         ListNode node = null;
-        ListNode current = null;
-        
         while(p1 != null && p2 != null) {
             if(p1.val <= p2.val) {
                 node = new ListNode(p1.val);
@@ -38,31 +38,27 @@ class Solution {
             } else {
                 node = new ListNode(p2.val);
                 p2 = p2.next;
-            }    
-            
-            if(head == null) {
-                head = node;
-                current = node;
-            } else {
-                current.next = node;
-                current = node;
             }
+            if(head == null)
+                head = node;
+            if(prev != null)
+                prev.next = node;
+            prev = node;
         }
-        
-        while(p1 != null) {
+        while(p1 != null){
             node = new ListNode(p1.val);
-            current.next = node;
-            current = node;
+            prev.next = node;
+            prev = node;
             p1 = p1.next;
         }
         while(p2 != null) {
             node = new ListNode(p2.val);
-            current.next = node;
-            current = node;
+            prev.next = node;
+            prev = node;
             p2 = p2.next;
         }
-        return head;
         
+       return head; 
     }
 }
 ```
