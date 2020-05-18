@@ -9,7 +9,53 @@ Input: 1->2->4, 1->3->4
 Output: 1->1->2->3->4->4
 ```
 
-# Implementation :
+# Implementation 1 :
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if(l1 == null || l2 == null)
+            return l1 == null ? l2 : l1;
+        
+        Queue<Integer> pq = new PriorityQueue<>();
+        addNodes(l1, pq);
+        addNodes(l2, pq);
+      
+        ListNode head = null;
+        ListNode prev = null;
+        ListNode node = null;
+        
+        while(!pq.isEmpty()) {
+            node = new ListNode(pq.poll());
+            if(head == null)
+                head = node;
+            if(prev != null)
+                prev.next = node;
+            prev = node;
+        }
+       return head; 
+    }
+    
+    private void addNodes(ListNode head, Queue<Integer> q) {
+        ListNode current = head;
+        while(current != null) {
+            q.add(current.val);
+            current = current.next;
+        }
+    }
+}
+```
+
+# Implementation 2 :
 
 ```java
 /**
